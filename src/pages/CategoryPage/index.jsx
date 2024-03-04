@@ -24,7 +24,7 @@ export default function CategoryPage() {
         return (
           <Link
             key={product.id}
-            to={`/category/${categoryId}/${product.id}`} // Passe os parâmetros para a rota
+            to={`/category/${categoryId}/${product.id}`}
             className={productClassName}
           >
             <img
