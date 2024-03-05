@@ -5,10 +5,11 @@ import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { api } from '../../services/api'
 import { Dropdown } from 'primereact/dropdown'
+import 'primeicons/primeicons.css'
 
 import S from './styles.module.scss'
 
-export default function EditProductModal() {
+export default function EditProductModal({ productId }) {
   const [productName, setProductName] = useState('')
   const [productDescription, setProductDescription] = useState('')
   const [productIngredients, setProductIngredients] = useState('')
@@ -20,6 +21,7 @@ export default function EditProductModal() {
   const toast = useRef(null)
 
   useEffect(() => {
+    console.log('productId useEffect', productId)
     fetchCategories()
   }, [visible])
 
@@ -38,9 +40,10 @@ export default function EditProductModal() {
       })
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = productId => {
+    console.log('productId handleSubmit', productId)
     api
-      .post('/product', {
+      .put(`/product/${productId}`, {
         name: productName,
         description: productDescription,
         ingredients: productIngredients,
@@ -52,7 +55,7 @@ export default function EditProductModal() {
         toast.current.show({
           severity: 'success',
           summary: 'Sucesso',
-          detail: 'Produto cadastrado com sucesso!'
+          detail: 'Produto editado com sucesso!'
         })
       })
       .catch(error => {
@@ -70,7 +73,7 @@ export default function EditProductModal() {
   return (
     <div>
       <div className={S.buttonDiv}>
-        <Button label="Novo produto" onClick={() => setVisible(true)} />
+        <Button icon="pi pi-pencil" onClick={() => setVisible(true)} />
       </div>
 
       <Dialog
@@ -143,7 +146,7 @@ export default function EditProductModal() {
               onClick={() => setVisible(false)}
               className="p-button-text"
             />
-            <Button label="Salvar" onClick={handleSubmit} />
+            <Button label="Salvar" onClick={() => handleSubmit(productId)} />
           </div>
         </div>
       </Dialog>
