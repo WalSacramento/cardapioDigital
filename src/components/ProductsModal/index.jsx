@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { DataTable } from 'primereact/datatable'
@@ -19,6 +19,8 @@ export default function ProductsModal() {
   const [categories, setCategories] = useState([])
   const [categoryId, setCategoryId] = useState('')
   const [products, setProducts] = useState([])
+
+  const toast = useRef(null); // Adicione esta linha
 
   useEffect(() => {
     fetchCategories()
@@ -44,22 +46,37 @@ export default function ProductsModal() {
   }
 
   const fetchProducts = categoryId => {
-    if (categoryId) {
-      api
-        .get(`/category/${categoryId}/products`)
-        .then(response => {
-          setProducts(response.data)
-        })
-        .catch(error => {
-          Toast.current.show({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Erro ao buscar produtos'
+    console.log('fetchProducts')
+    api
+      .get(`/category/${categoryId}/products`)
+      .then(response => {
+        if (response.data.length === 0) {
+          toast.current.show({
+            severity: 'info',
+            summary: 'Info',
+            detail: 'Nenhum produto encontrado nesta categoria'
           })
+
+          return setProducts([
+            {
+              name: 'Nenhum produto encontrado',
+              description: '',
+              ingredients: '',
+              price: '',
+              image: ''
+            }
+          ])
+        } else {
+          setProducts(response.data)
+        }
+      })
+      .catch(error => {
+        toast.current.show({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao buscar produtos'
         })
-    } else {
-      setProducts([])
-    }
+      })
   }
 
   const confirmDelete = product => {
@@ -71,7 +88,7 @@ export default function ProductsModal() {
     api.delete(`/product/${selectedProduct.id}`).then(response => {
       fetchProducts(categoryId)
 
-      Toast.current.show({
+      toast.current.show({
         severity: 'success',
         summary: 'Sucesso',
         detail: `Produto "${selectedProduct.name}" deletado com sucesso!`
@@ -98,20 +115,16 @@ export default function ProductsModal() {
 
   return (
     <div>
+      <Toast ref={toast} />
       <Button label="Gerenciar produtos" onClick={() => setVisible(true)} />
 
       <Dialog
         visible={visible}
         onHide={() => setVisible(false)}
         header="Categorias"
-        style={{ width: '50vw' }}
+        style={{ width: '80vw' }}
         footer={<Button label="Close" onClick={() => setVisible(false)} />}
       >
-        <Button
-          label="Atualizar categorias"
-          icon="pi pi-refresh"
-          onClick={fetchCategories}
-        />
         <div className="p-field">
           <label htmlFor="categoryId">Selecione a categoria</label>
           <Dropdown
@@ -122,11 +135,11 @@ export default function ProductsModal() {
           />
         </div>
         <DataTable value={products}>
-          <Column field="name" header="Name" />
-          <Column field="description" header="Description" />
-          <Column field="ingredients" header="Ingredients" />
-          <Column field="price" header="Price" />
-          <Column field="image" header="Image" />
+          <Column field="name" header="Nome" />
+          <Column field="description" header="Descrição" />
+          <Column field="ingredients" header="Ingredientes" />
+          <Column field="price" header="Preço" />
+          <Column field="image" header="Imagem" />
           <Column
             body={actionTemplate}
             style={{ textAlign: 'center', width: '8em' }}

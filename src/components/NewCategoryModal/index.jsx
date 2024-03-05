@@ -5,6 +5,8 @@ import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { api } from '../../services/api'
 
+import S from './styles.module.scss'
+
 export default function NewCategoryModal() {
   const [categoryName, setCategoryName] = useState('')
   const [visible, setVisible] = useState(false)
@@ -36,7 +38,9 @@ export default function NewCategoryModal() {
 
   return (
     <div>
-      <Button label="Nova Categoria" onClick={() => setVisible(true)} />
+      <div className={S.buttonDiv}>
+        <Button label="Nova Categoria" onClick={() => setVisible(true)} />
+      </div>
 
       <Dialog
         header="Cadastrar Nova Categoria"
@@ -54,13 +58,15 @@ export default function NewCategoryModal() {
           </div>
         </div>
 
-        <div className="p-dialog-footer">
-          <Button
-            label="Cancelar"
-            onClick={() => setVisible(false)}
-            className="p-button-text"
-          />
-          <Button label="Salvar" onClick={handleSubmit} />
+        <div className={S.buttonDiv}>
+          <div className="p-dialog-footer">
+            <Button
+              label="Cancelar"
+              onClick={() => setVisible(false)}
+              className="p-button-text"
+            />
+            <Button label="Salvar" onClick={handleSubmit} />
+          </div>
         </div>
       </Dialog>
 

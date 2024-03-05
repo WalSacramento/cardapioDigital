@@ -84,7 +84,7 @@ export default function CategoriesModal() {
           onClick={fetchCategories}
         />
         <DataTable value={categories}>
-          <Column field="name" header="Name" />
+          <Column field="name" header="Nome" />
           <Column
             body={actionTemplate}
             style={{ textAlign: 'center', width: '8em' }}

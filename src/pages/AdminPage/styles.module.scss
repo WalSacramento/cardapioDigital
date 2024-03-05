@@ -1,74 +1,42 @@
 @import '../../styles/variables.scss';
 
 .container {
+  width: 100wh;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  background-color: $primary-color;
-}
-
-a {
-  text-decoration: none;
-  color: $secondary-color;
-}
-
-.categoryTitle {
-  color: $secondary-color;
-  font-size: 3rem;
-  margin: 1rem;
-  text-transform: uppercase;
-}
-
-.productOrange {
-  background-color: $tertiary-color;
-  width: 95%;
-  padding: 0.5rem;
-  margin: 0.5rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  // box-shadow: 0 0 0.2rem 0.1rem #111;
+  background-color: #d9d9d9;
 }
 
-.productYellow {
-  background-color: $primary-color;
-  width: 95%;
-  margin: 0.5rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row-reverse;
-}
-.productInfo {
-  width: 65%;
+.adminPage {
+  background-color: #fff;
+  width: 50vw;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  border-radius: 10px;
 }
 
-.productImg {
-  width: 25%;
-  height: 100%;
-  border-radius: 0.5rem;  
-  margin: 0 0.5rem; 
-}
-.productName {
+.title {
   font-size: 1.5rem;
-  margin: 0;
+  margin-bottom: 20px;
 }
 
-.productIngredients {
-  font-size: 0.9rem;
-  margin: 0;
+.categories {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.productPrice {
-  width: 10%;
-  font-size: 1.5rem;
-  margin: 0.5rem;
+.products {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }

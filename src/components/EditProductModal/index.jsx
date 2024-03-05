@@ -8,7 +8,7 @@ import { Dropdown } from 'primereact/dropdown'
 
 import S from './styles.module.scss'
 
-export default function NewProductModal() {
+export default function EditProductModal() {
   const [productName, setProductName] = useState('')
   const [productDescription, setProductDescription] = useState('')
   const [productIngredients, setProductIngredients] = useState('')
