@@ -8,9 +8,12 @@ import 'primereact/resources/themes/saga-blue/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 
+import S from './styles.module.scss'
+
 import { api } from '../../services/api'
 import { Toast } from 'primereact/toast'
 import { Dropdown } from 'primereact/dropdown'
+import EditProductModal from '../EditProductModal'
 
 export default function ProductsModal() {
   const [visible, setVisible] = useState(false)
@@ -20,7 +23,7 @@ export default function ProductsModal() {
   const [categoryId, setCategoryId] = useState('')
   const [products, setProducts] = useState([])
 
-  const toast = useRef(null); // Adicione esta linha
+  const toast = useRef(null) // Adicione esta linha
 
   useEffect(() => {
     fetchCategories()
@@ -134,6 +137,16 @@ export default function ProductsModal() {
             placeholder="Selecione a categoria"
           />
         </div>
+
+        <div className={S.buttonDiv}>
+          <Button
+            label="Atualizar produtos"
+            icon="pi pi-refresh"
+            onClick={() => fetchProducts(categoryId)}
+          />
+        </div>
+
+        
         <DataTable value={products}>
           <Column field="name" header="Nome" />
           <Column field="description" header="Descrição" />
@@ -142,6 +155,10 @@ export default function ProductsModal() {
           <Column field="image" header="Imagem" />
           <Column
             body={actionTemplate}
+            style={{ textAlign: 'center', width: '8em' }}
+          />
+          <Column
+            body={rowData => <EditProductModal productId={rowData.id} />}
             style={{ textAlign: 'center', width: '8em' }}
           />
         </DataTable>
